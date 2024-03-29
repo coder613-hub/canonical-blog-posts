@@ -7,7 +7,6 @@
     <title>Blog Posts</title>
     <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-4.9.0.min.css">
     <style>
-        /* Custom styling specific to your project */
         #blog-posts {
             margin-top: 32px;
             margin-right: 150px;
@@ -36,18 +35,15 @@
                 card.style.overflowX = 'hidden';
                 card.classList.add('p-card');
 
-                // Create and append the "CLOUD AND SERVER" heading
                 const myheading = document.createElement('h4');
                 myheading.classList.add('p-muted-heading');
                 myheading.textContent = "CLOUD AND SERVER";
                 card.appendChild(myheading);
 
-                // Create and append the divider
                 const divider1 = document.createElement('hr');
                 divider1.classList.add('p-divider');
                 card.appendChild(divider1);
 
-                // Create and append the image
                 if (imageUrl) {
                     const imageContainer = document.createElement('div');
                     imageContainer.classList.add('p-card__img');
@@ -57,7 +53,6 @@
                     card.appendChild(imageContainer);
                 }
 
-                // Create and append the title
                 const heading = document.createElement('p');
                 heading.classList.add('p-heading--3');
                 heading.style.color = '#59a9c4';
@@ -82,13 +77,10 @@
 
                 card.appendChild(authorDate);
 
-
-                // Create and append the horizontal divider
                 const divider2 = document.createElement('hr');
                 divider2.classList.add('p-divider');
                 card.appendChild(divider2);
 
-                // Create and append the "Article" heading
                 const articleHeading = document.createElement('p');
                 articleHeading.classList.add('p-heading--4');
                 articleHeading.textContent = "Article";
