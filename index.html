@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-4.9.0.min.css">
+    <style>
+        /* Custom styling specific to your project */
+        #blog-posts {
+            margin-top: 32px;
+            margin-right: 150px;
+            margin-left: 150px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="blog-posts" class="p-grid__row">
+    </div>
+
+    <script>
+       function formatDate(dateString) {
+            const options = { day: '2-digit', month: 'long', year: 'numeric' };
+            const dateParts = new Date(dateString).toLocaleDateString('en-US', options).split(' ');
+            const finalDate = dateParts.map(part => part.replace(/,/g, ''));
+            return `${finalDate[1]} ${finalDate[0]} ${finalDate[2]}`;
+        }
+
+        function createCard(title, imageUrl, author, date) {
+                const card = document.createElement('div');
+                card.style.overflowX = 'hidden';
+                card.classList.add('p-card');
+
+                // Create and append the "CLOUD AND SERVER" heading
+                const myheading = document.createElement('h4');
+                myheading.classList.add('p-muted-heading');
+                myheading.textContent = "CLOUD AND SERVER";
+                card.appendChild(myheading);
+
+                // Create and append the divider
+                const divider1 = document.createElement('hr');
+                divider1.classList.add('p-divider');
+                card.appendChild(divider1);
+
+                // Create and append the image
+                if (imageUrl) {
+                    const imageContainer = document.createElement('div');
+                    imageContainer.classList.add('p-card__img');
+                    const image = document.createElement('img');
+                    image.src = imageUrl;
+                    imageContainer.appendChild(image);
+                    card.appendChild(imageContainer);
+                }
+
+                // Create and append the title
+                const heading = document.createElement('p');
+                heading.classList.add('p-heading--3');
+                heading.style.color = '#59a9c4';
+                heading.textContent = title;
+                card.appendChild(heading);
+
+                const authorDate = document.createElement('div');
+                authorDate.classList.add('p-card__author-date');
+
+                const authorSpan = document.createElement('span');
+                authorSpan.textContent = 'By ';
+                authorDate.appendChild(authorSpan);
+
+                const authorNameSpan = document.createElement('span');
+                authorNameSpan.textContent = author;
+                authorNameSpan.style.color = '#59a9c4'; 
+                authorDate.appendChild(authorNameSpan);
+
+                const dateSpan = document.createElement('span');
+                dateSpan.textContent = ` on ${formatDate(date)}`;
+                authorDate.appendChild(dateSpan);
+
+                card.appendChild(authorDate);
+
+
+                // Create and append the horizontal divider
+                const divider2 = document.createElement('hr');
+                divider2.classList.add('p-divider');
+                card.appendChild(divider2);
+
+                // Create and append the "Article" heading
+                const articleHeading = document.createElement('p');
+                articleHeading.classList.add('p-heading--4');
+                articleHeading.textContent = "Article";
+                card.appendChild(articleHeading);
+
+                return card;
+            }
+        const blogPostsElement = document.getElementById('blog-posts');
+
+        fetch('https://people.canonical.com/~anthonydillon/wp-json/wp/v2/posts.json')
+            .then(response => response.json())
+            .then(responseJson => {
+                for (let post of responseJson) {
+                    const postCard = createCard(post.title.rendered, post.featured_media, post._embedded.author[0].name, post.date);
+                    blogPostsElement.appendChild(postCard);
+                }
+            }).catch(function (err) {
+                console.warn('Something went wrong.', err);
+            });
+    </script>
+</body>
+
+</html>
